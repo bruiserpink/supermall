@@ -1,6 +1,6 @@
 <template>
   <div class="goods-item" @click="itemClick">
-    <img v-lazy="showImage" alt="" @load="imagesLoad">
+    <img v-lazy="imgUrl" alt="" @load="imagesLoad">
     <div class="goods-info">
       <p>{{goodsItem.title}}</p>
       <span class="price">{{goodsItem.price}}</span>
@@ -18,16 +18,7 @@
         default() {
           return {};
         }
-      }
-    },
-    computed: {
-      showImage() {
-        if(this.$route.path === '/category'){
-          return  this.goodsItem.img;
-        }else if(this.$route.path === '/home'){
-          return this.goodsItem.image || this.goodsItem.show.img;
-        }
-      }
+      },
     },
     methods: {
       //@load函数在图片加载完之后执行
@@ -41,6 +32,11 @@
       },
       itemClick() {
         this.$router.push('/detail/'+ (this.goodsItem.iid || this.goodsItem.item_id));
+      }
+    },
+    computed: {
+      imgUrl() {
+        return this.goodsItem.img || this.goodsItem.image || this.goodsItem.show.img
       }
     }
   }
